@@ -1,6 +1,9 @@
 
 local M = {}
 
+--- copy a table and return another table containing the same values
+--- @param orig table to copy
+--- @return table containing the data copied
 function M.deep_copy(orig)
   local copy
   if type(orig) == 'table' then
@@ -15,6 +18,10 @@ function M.deep_copy(orig)
   return copy
 end
 
+--- Check value of two tables
+--- @param t1 first table 
+--- @param t2 second table
+--- @return true if both tables are equal, false otherwise
 function M.is_equal_tables(t1, t2)
   if t1 == t2 then return true end
   if type(t1) ~= "table" or type(t2) ~= "table" then return false end
@@ -43,9 +50,12 @@ function M.merge_settings(default_opts, user_opts)
     local merged = M.deep_copy(default_opts)
 
     -- Override with user-provided options
-    for key, value in pairs(user_opts) do
-        merged[key] = value
+    if type(user_opts) == table then
+        for key, value in ipairs(user_opts) do
+            merged[key] = value
+        end
     end
+
     return merged
 end
 
